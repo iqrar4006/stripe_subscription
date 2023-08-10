@@ -1,0 +1,51 @@
+{% extends 'subscription/base.html' %}
+{% load static %}
+{% block title %}Profile{% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+  <div class="row my-3">
+    <div class="col-sm-6 offset-sm-3 bg-light rounded">
+    <h3>Welcome <span class="text-capitalize">{{request.user}}</span></h3>
+
+    {% if purchases %}
+
+    <div class="card mb-2">
+      <div class="card-body">
+        <h5 class="text-capitalize">Current Plans Details  <span class="badge rounded-pill text-primary">Active</span> <a href="{% url 'cancelplan' %}" class="btn btn-primary ms-5" role="button">Cancel</a></h5>
+        <p class="text-capitalize">{{purchases.plan_type}}</p>
+        <p>{{purchases.allow_devices}}</p>
+        <p class='fs-1'>₹ {{purchases.price}}/{{purchases.yr_mon}}</p>
+        <a href="{% url 'showplan' 0 1 %}" class="btn btn-primary" role="button">Change/Show Plan</a>
+        <p class="mt-2">Your subscription has started on {{purchases.start_date}} and will auto renew on {{purchases.end_date}}</p>
+      </div>
+    </div>
+
+
+    {% else %}
+
+    <h3 class='mt-2'>You Have No Plan Now !</h3>
+    <a href="{% url 'showplan' 0 1 %}" class="btn btn-primary my-4" role="button">Show Plan</a>
+    {% endif %}
+
+  
+  </div>
+
+  <div class="col-sm-6 offset-sm-3 mt-5 bg-light rounded">
+    {% if cancelled %}
+
+    <div class="card mb-2">
+      <div class="card-body">
+        <h5 class="text-capitalize">Current Plans Details  <span class="badge rounded-pill text-danger">cancelled</span> </h5>
+        <p>{{cancelled.plan_type}}</p>
+        <p>{{cancelled.allow_devices}}</p>
+        <p class='fs-1'>₹ {{cancelled.price}}/{{cancelled.yr_mon}}</p>
+        <a href="{% url 'showplan' 0 1 %}" class="btn btn-primary" role="button">Change/Show Plan</a>
+        <p class="mt-2">Your subscription was cancelled on {{cancelled.cancelled_date}}.</p>
+      </div>
+    </div>
+
+    {% endif %}
+  </div>
+ </div>
+</div>
+{% endblock main-content %}
